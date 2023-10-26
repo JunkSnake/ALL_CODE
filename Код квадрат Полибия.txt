@@ -1,0 +1,204 @@
+from tkinter import *
+from tkinter import filedialog
+import array
+import docx
+from docx import Document
+koll=str
+alph= [["а","б","в","г","д","е"],
+       ["ё","ж","з","и","й","к"],
+       ["л","м","н","о","п","р"],
+       ["с","т","у","ф","х","ц"],
+       ["ч","ш","щ","ъ","ы","ь"],
+       ["э","ю","я","А","Б","В"],
+       ["Г","Д","Е","Ё","Ж","З"],
+       ["И","Й","К","Л","М","Н"],
+       ["О","П","Р","С","Т","У"],
+       ["Ф","Х","Ц","Ч","Ш","Щ"],
+       ["Ъ","Ы","Ь","Э","Ю","Я"],
+       ["0","1","2","3","4","5"],
+       ["6","7","8","9","!","?"],
+       [".",",",":",";","%","@"]
+       ]
+def path_finder(buka):
+    global alph
+    i=0
+    j=0
+
+    for i in range(len(alph)):
+        for j in range(len(alph[j])):
+            if (buka == alph[i][j]):
+
+                return (str(i)+str(j))
+            elif buka==" ":
+                return buka
+def kol(lokd):
+    global alph
+    i = 0
+    j = 0
+    m=0
+    n=0
+    rez=""
+    tr=str
+    strr=" ".join(map(str, lokd))
+    #print(strr)
+
+
+
+    return strr
+
+
+def un_chif():
+
+    global alph
+    filepath = filedialog.askopenfilename(title="Откройте зашифрованный файл с разрешением =.docx")
+    doc=Document(filepath)
+    text=[]
+    for paragraph in doc.paragraphs:
+        text.append(paragraph.text)
+
+    i = 0
+    ans1=[]
+    tr=str
+    tr=""
+    for i in range(len(text)):
+        for j in range(len(text[i])):
+                if text[i][j]!=" ":
+                    tr=tr+text[i][j]
+                    #print(tr+"i="+str(i)+" "+"j="+str(j))
+                if text[i][j]==" ":
+                    #print(tr+"i="+str(i)+" "+"j="+str(j))
+                    ans1.append(tr)
+                    #print(ans1)
+                    tr=""
+    i=0
+    rez=str
+    m=0
+    n=0
+    lm=list
+    lm=kol(ans1).split()
+    while i<len(lm):
+        print(lm[i])
+        i+=1
+    i=0
+    g=0
+    rez=[]
+
+    for i in range(len(lm)):
+
+        if int(lm[i]) > 100:
+            gg = " ".join(lm[i])
+
+            m = int(str(gg[0]) + str(gg[2]))
+            n = int(gg[4])
+            rez.append(alph[m][n])
+            print(str(rez[i]) + " " + str(m)+ " " + str(n))
+        elif int(lm[i])<100 and (lm[i]!="" or lm[i]!=" " ):
+            gg =" ".join(lm[i])
+            m = int(gg[0])
+
+            n = int(gg[2])
+
+            rez.append(alph[m][n])
+            print(str(rez[i]) + " " + str(m)+ " " + str(n))
+
+
+    i=0
+
+
+
+    filepath = filedialog.askopenfilename(title="Откройте файл для вывода расшифровонного текста с разрешением =.docx")
+    doc1 = Document(filepath)
+
+    trade=" "
+    i=0
+    while i<len(rez):
+        trade=trade+str(rez[i])+" "
+        i+=1
+
+
+    doc1.add_paragraph(str(trade))
+    doc1.save(filepath)
+
+
+
+def chif():
+
+    global alph
+
+
+    filepath = filedialog.askopenfilename(title="Откройте файл с разрешением =.docx")
+    doc = Document(filepath)
+    text = []
+
+    for paragraph in doc.paragraphs:
+        text.append(paragraph.text)
+    i=0
+    text1 = [0] * len(text)
+    while i<len(text):
+        text1[i]=list(text[i])
+        i+=1
+    i=0
+    #Text выводится правильно
+    #while i<len(text1):
+        #print("\n"+str(text1[i]))
+        #i+=1
+    j=0
+
+    doc.save(filepath)
+    filepath = filedialog.askopenfilename(title="Откройте файл для вывода зашифровонного текста с разрешением =.docx")
+    doc1=Document(filepath)
+    for i in range(len(text1)):
+        for j in range(len(text1[i])):
+            #print(path_finder(text1[i][j]))
+            text1[i][j]=path_finder(text1[i][j])
+            #print(text1[i][j])
+    i=0
+    for i in range(len(text1)):
+        slop=str
+        slop=""
+        for j in range(len(text1[i])):
+            slop=slop+str(text1[i][j])+" "
+            #doc1.add_paragraph(str(text1[i][j]))
+            #print("i="+str(i)+" "+"j="+str(j))
+            #i += 1
+        doc1.add_paragraph(slop)
+
+
+
+    #while i<len(text1):
+        #trade=str(text1[i])
+        #print(text1[i])
+        #doc1.add_paragraph(text1[i][j])
+        #i+=1
+    doc1.save(filepath)
+
+
+
+
+
+
+window = Tk()
+window.geometry("920x920")
+window.title("Лабораторная работа №10")
+label= Label(
+             text="Вывод шифрованного текста ",
+             font=('Times New Roman', 30, 'bold'),
+             fg='black',
+             bd=10,
+             padx=10,
+             pady=10,
+             compound='top'
+             )
+label.pack()
+listbox=Listbox(bg="#e6e6fa",
+                font=('Times New Roman', 14, 'bold'),
+                height=33,
+                width=33)
+listbox.pack()
+
+button = Button(window, text="Открыть файл для шифрования", command=chif,compound='bottom')
+button.pack()
+button = Button(window, text="Открыть файл для расшифровки", command=un_chif,compound='bottom')
+button.pack()
+
+window.mainloop()
