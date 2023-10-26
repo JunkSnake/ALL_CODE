@@ -1,0 +1,93 @@
+import static java.lang.Math.log;
+import java.util.Scanner;
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        Scanner Sc=new Scanner(System.in);
+        int n,m;
+        double R1,R2,h,hh,hxy,h1,P1,P2,P3,h2,hy,hx,HX,H;
+        hx=0;
+        h2=0;
+        P1=0;
+        P2=0;
+        P3=0;
+        h1=0;
+        hh=0;
+        R1=0;
+        R2=0;
+
+        System.out.println("Введите вероятности размерность таблицы n(y) m(x) ");
+        n=Sc.nextInt();
+        m=Sc.nextInt();
+        double [] [] ms1=new double[n][m];
+        System.out.println("Введите вероятности из табилцы");
+        for (int i=0;i<n;i++) {
+            for (int j = 0; j < ms1[i].length; j++)
+            { ms1 [i] [j]= Sc.nextDouble();}};
+        System.out.println("Таблица ");
+        for (int i=0;i<n;i++) {
+            for (int j = 0; j < ms1[i].length; j++) {System.out.print(ms1[i][j] + " ");}
+            System.out.println();};
+//Массивы с строками
+        double [] r1=new double[m];
+        for (int j=0,i=0; j<n+1;j++,i++){
+            r1[i]=ms1 [0] [j];
+
+        }
+        double [] r2=new double[m];
+        for (int j=0,i=0; j<n+1;j++,i++){
+            r2[i]=ms1 [1] [j];
+            }
+            for (int i=0;i<n+1;i++){
+                R1=r1[i]+R1;
+                R2=r2[i]+R2;}
+        for (int i=0;i<n;i++) {
+            for (int j = 0; j < ms1[i].length; j++){
+                h=(-(ms1[i][j]*(log(ms1[i][j])/log(2))));hh=h+hh;
+            }}
+        System.out.println("Полная энтропия ="+hh);
+        double [] Pxy1=new double[m];
+        for (int i=0;i<n+1;i++){
+            Pxy1[i]=r1[i]/R1;
+            }
+        double [] Pxy2=new double[m];
+        for (int i=0;i<n+1;i++){
+            Pxy2[i]=r2[i]/R2;
+            }
+//Массивы с столбами
+        double [] p1=new double[n];
+        for (int j=0,i=0; j<n;j++,i++){
+            p1[i]=ms1 [i] [0];}
+        double [] p2=new double[n];
+        for (int j=0,i=0; j<n;j++,i++){
+            p2[i]=ms1 [i] [1];}
+        double [] p3=new double[n];
+        for (int j=0,i=0; j<n;j++,i++){
+            p3[i]=ms1 [i] [2];}
+        for (int i=0;i<n;i++){
+            P1=p1[i]+P1;
+            P2=p2[i]+P2;
+            P3=p3[i]+P3;}
+        double [] Pyx1=new double[n];
+        for (int i=0;i<n;i++){
+            Pyx1[i]=p1[i]/P1;}
+        double [] Pyx2=new double[n];
+        for (int i=0;i<n;i++){
+            Pyx2[i]=p2[i]/P2;}
+        double [] Pyx3=new double[n];
+        for (int i=0;i<n;i++){
+            Pyx3[i]=p3[i]/P3;}
+        for (int i=0;i<n+1;i++) {
+            hxy=(-(r1[i]*(log(Pxy1[i])/log(2))))+(-(r2[i]*(log(Pxy2[i])/log(2))));h1=hxy+h1;}
+        System.out.println("Условная энтропия H(X/Y)="+ h1);
+        for (int i=0;i<n;i++) {
+            hy=(-(p1[i]*(log(Pyx1[i])/log(2))))+(-(p2[i]*(log(Pyx2[i])/log(2))))+(-(p3[i]*(log(Pyx3[i])/log(2))));h2=hy+h2;}
+        System.out.println("Условная энтропия H(Y/X)="+ h2);
+
+        for (int i=0;i<n+1;i++){
+            HX=(-(Pxy2[i]*(log(Pxy2[i])/log(2))));
+            hx=HX+hx;}
+        System.out.println("HX="+hx);
+        H=hx+h2;
+        System.out.println(" энтропия системы H(Y/X)="+ H);
