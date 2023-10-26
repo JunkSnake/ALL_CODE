@@ -1,0 +1,191 @@
+from tkinter import *
+from tkinter import filedialog
+
+import docx
+import array
+
+import openpyexcel
+from docx import Document
+from openpyexcel import *
+chek=0
+cheker=0
+def output(list):
+    global chek
+    filepath = filedialog.askopenfilename(title="Откройте файл с разрешением =.xlsx")
+    print(filepath)
+    rb=openpyexcel.load_workbook(filepath)
+    sheet=rb.active
+    colm = 1
+    i=0
+    while i<len(list):
+        cell = sheet.cell(i+1,colm+chek,("{0:.4f}".format(list[i])))
+        i+=1
+    chek+=1
+    rb.save(filepath)
+    return ()
+
+
+def research():
+    global cheker
+    alphavi=["а","б","в","г","д","е","ё","ж","з","и","й","к","л","м","н","о","п","р","с","т","у","ф","х","ц","ч","ш","щ","ъ","ы","ь","э","ю","я"]
+    filepath=filedialog.askopenfilename(title="Откройте файл с разрешением =.docx")
+    doc = Document(filepath)
+    text = []
+    for paragraph in doc.paragraphs:
+        text.append(paragraph.text)
+
+    i = 0
+    long = 0
+    counts = [0]*33
+    answ = [0]*33
+    while i < len(text):
+        counts[0] += text[i].count("а")
+        counts[1] += text[i].count("б")
+        counts[2] += text[i].count("в")
+        counts[3] += text[i].count("г")
+        counts[4] += text[i].count("д")
+        counts[5] += text[i].count("е")
+        counts[6] += text[i].count("ё")
+        counts[7] += text[i].count("ж")
+        counts[8] += text[i].count("з")
+        counts[9] += text[i].count("и")
+        counts[10] += text[i].count("й")
+        counts[11] += text[i].count("к")
+        counts[12] += text[i].count("л")
+        counts[13] += text[i].count("м")
+        counts[14] += text[i].count("н")
+        counts[15] += text[i].count("о")
+        counts[16] += text[i].count("п")
+        counts[17] += text[i].count("р")
+        counts[18] += text[i].count("с")
+        counts[19] += text[i].count("т")
+        counts[20] += text[i].count("у")
+        counts[21] += text[i].count("ф")
+        counts[22] += text[i].count("х")
+        counts[23] += text[i].count("ц")
+        counts[24] += text[i].count("ч")
+        counts[25] += text[i].count("щ")
+        counts[26] += text[i].count("щ")
+        counts[27] += text[i].count("ъ")
+        counts[28] += text[i].count("ы")
+        counts[29] += text[i].count("ь")
+        counts[30] += text[i].count("э")
+        counts[31] += text[i].count("ю")
+        counts[32] += text[i].count("я")
+        counts[0] += text[i].count("A")
+        counts[1] += text[i].count("Б")
+        counts[2] += text[i].count("В")
+        counts[3] += text[i].count("Г")
+        counts[4] += text[i].count("Д")
+        counts[5] += text[i].count("Е")
+        counts[6] += text[i].count("Ё")
+        counts[7] += text[i].count("Ж")
+        counts[8] += text[i].count("З")
+        counts[9] += text[i].count("И")
+        counts[10] += text[i].count("Й")
+        counts[11] += text[i].count("К")
+        counts[12] += text[i].count("Л")
+        counts[13] += text[i].count("М")
+        counts[14] += text[i].count("Н")
+        counts[15] += text[i].count("О")
+        counts[16] += text[i].count("П")
+        counts[17] += text[i].count("Р")
+        counts[18] += text[i].count("С")
+        counts[19] += text[i].count("Т")
+        counts[20] += text[i].count("У")
+        counts[21] += text[i].count("Ф")
+        counts[22] += text[i].count("Х")
+        counts[23] += text[i].count("Ц")
+        counts[24] += text[i].count("Ч")
+        counts[25] += text[i].count("Ш")
+        counts[26] += text[i].count("Щ")
+        counts[27] += text[i].count("Ъ")
+        counts[28] += text[i].count("Ы")
+        counts[29] += text[i].count("Ь")
+        counts[30] += text[i].count("Э")
+        counts[31] += text[i].count("Ю")
+
+        i += 1
+    i = 0
+    sum_simv = 0
+    while i < 33:
+        sum_simv += counts[i]
+        i += 1
+    i = 0
+    print(sum_simv)
+    print(counts[0])
+    if cheker==0:
+        listbox_f1.insert(1,str(filepath))
+        while i < 33:
+            answ[i] = counts[i] / sum_simv
+            listbox.insert(i + 1, ("Частота буквы" +" "+alphavi[i] +" "+ "=" +" "+ (str(("{0:.4f}".format(answ[i]))))))
+            i += 1
+    elif cheker==1:
+        listbox_f2.insert(1, str(filepath))
+        while i < 33:
+            answ[i] = counts[i] / sum_simv
+            listbox1.insert(i + 1, ("Частота буквы" +" "+alphavi[i] +" "+ "=" +" "+ (str(("{0:.4f}".format(answ[i]))))))
+            i += 1
+    elif cheker==2:
+        listbox_f3.insert(1, str(filepath))
+        while i < 33:
+            answ[i] = counts[i] / sum_simv
+            listbox2.insert(i + 1, ("Частота буквы" +" "+alphavi[i] +" "+ "=" +" "+ (str(("{0:.4f}".format(answ[i]))))))
+            i += 1
+
+    cheker=cheker+1
+    #output(answ)
+
+window = Tk()
+window.geometry("920x920")
+window.title("Лабораторная работа №9")
+label= Label(
+             text="Вывод частот ",
+             font=('Times New Roman', 30, 'bold'),
+             fg='black',
+             bd=10,
+             padx=10,
+             pady=10,
+             compound='top'
+             )
+label.pack()
+button = Button(window, text="Открыть файл", command=research,compound='bottom',font=('Times New Roman', 12, 'bold'))
+button.pack()
+listbox_f1=Listbox(
+                font=('Times New Roman', 8, 'bold'),
+                height=1,
+                width=43)
+listbox_f1.pack()
+listbox_f1.place(x=8,y=160)
+listbox_f2=Listbox(
+                font=('Times New Roman', 8, 'bold'),
+                height=1,
+                width=43)
+listbox_f2.pack()
+listbox_f2.place(x=293,y=160)
+listbox_f3=Listbox(
+                font=('Times New Roman', 8, 'bold'),
+                height=1,
+                width=43)
+listbox_f3.pack()
+listbox_f3.place(x=576,y=160)
+listbox=Listbox(bg="#90EE90",
+                font=('Times New Roman', 12, 'bold'),
+                height=33,
+                width=33)
+listbox.pack(side=LEFT,padx=8)
+listbox1=Listbox(bg="#90EE90",
+                font=('Times New Roman', 12, 'bold'),
+                height=33,
+                width=33)
+listbox1.pack(side=LEFT,padx=8)
+listbox2=Listbox(bg="#90EE90",
+                font=('Times New Roman', 12, 'bold'),
+                height=33,
+                width=33)
+listbox2.pack(side=LEFT,padx=8)
+
+
+
+
+window.mainloop()
